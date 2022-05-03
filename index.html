@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+  <title>Code Editor</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    * {
+      margin:0px;
+      padding:0px;
+      box-sizing:border-box;
+    }
+    body {
+      height:100vh;
+      display:flex;
+    }
+    .code-area {
+      display:flex;
+      flex-direction:column;
+      width:50%;
+      border-right:1px solid #555;
+    }
+    .code-area textarea{
+      resize:none;
+      ouline: none;
+      width:100%;
+      height:33.33%;
+      font-size:18px;
+      padding:10px;
+    }
+    .preview {
+      width:50%;
+    }
+    .preview iframe{
+      width:100%;
+      height:100%;
+      border:none;
+    }
+  </style>
+</head>
+<body onload=onload()>
+  <div class="code-area">
+    <textarea id="HTML" placeholder=" Enter HTML" oninput="CodePreview();"></textarea>
+    <textarea id="CSS" placeholder=" Enter CSS" oninput="CodePreview(); "></textarea>
+    <textarea id="JS" placeholder=" Enter JS" oninput="CodePreview(); "></textarea>
+  </div>
+  <div class="preview">
+    <iframe id="preview"></iframe>
+  </div>
+  <script type="text/javascript">
+  var codeHtml = localStorage.getItem("html");
+  var codeCss = localStorage.getItem("css");
+  var codeJs = localStorage.getItem("js");
+
+  function onload() {
+    if (codeHtml) {
+      document.getElementById("HTML").value = codeHtml;
+    }
+
+    if (codeCss) {
+      document.getElementById("CSS").value = codeCss;
+    }
+
+    if (codeJs) {
+      document.getElementById("JS").value = codeJs;
+    }
+  }
+
+  function CodePreview() {
+    var htmlcode = document.getElementById("HTML").value;
+    var csscode = "<style>"+document.getElementById("CSS").value;+"</style>"
+    var jscode = "<scri"+"pt>"+document.getElementById("JS").value;+"</scri"+"pt>";
+    var frame = document.getElementById("preview").contentWindow.document;
+    frame.open();
+    frame.write(htmlcode+csscode+jscode);
+    localStorage.setItem("html", htmlcode);
+    localStorage.setItem("css", document.getElementById("CSS").value);
+    localStorage.setItem("js", document.getElementById("JS").value);
+    frame.close(); 
+  }   
+  </script>
+</body>
+
+</html>
